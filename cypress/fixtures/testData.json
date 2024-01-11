@@ -1,0 +1,15 @@
+{
+    "searchRequestUrl": "https://api.themoviedb.org/3/search/movie?query=",
+    "apiKey": "cfe422613b250f702980a3bbf9e90716",
+    "suggestedTitles": [
+        "Arrival",
+        "The Arrival",
+        "The Second Arrival"
+    ],
+    "arrivaSearch" : "Arriva",
+    "arrivalSearch" : "Arrival",
+    "theArrivalSearch": "The Arrival",
+    "arrivalTagline" : "Why are they here?",
+    "theArrivalTagline" : "Anna contemplates a big decision while waiting for someone in a cafe.",
+    "theAvengersSearch" : "The Avengers"
+}
