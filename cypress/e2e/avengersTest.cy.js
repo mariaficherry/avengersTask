@@ -1,69 +1,43 @@
+import * as testData from '../fixtures/testData.json'
+import * as stubbedRating from '../fixtures/avengersStubbedResponse.json'
+
 describe('template spec', () => {
 
   beforeEach(() => {
-    cy.loadTestDataFromJson();
     cy.visit('/')
   });
 
   it('testCase1', () => {
-    const apiKey = Cypress.env('apiKey');
-    const searchRequestUrl = Cypress.env('searchRequestUrl');
-    const suggestedTitles = Cypress.env('suggestedTitles');
-    const arrivaSearch = Cypress.env('arrivaSearch');
-    const arrivalSearch = Cypress.env('arrivalSearch');
-    const theArrivalSearch = Cypress.env('theArrivalSearch');
-    const arrivalTagline = Cypress.env('arrivalTagline');
-    const theArrivalTagline = Cypress.env('theArrivalTagline');
-    const theAvengersSearch = Cypress.env('theAvengersSearch');
+    cy.checkLogoAppearsAtTheTopRight()
 
-    cy.get('.logo').should('exist')
-    cy.url().should('contain', 'reactjs-tmdb-app/')
+    cy.checkUrlContainsText(testData.urlText)
 
-    cy.typeInSearch(arrivaSearch)
-    cy.get('.tt-dropdown-menu').should('exist')
+    cy.typeInSearch(testData.arrivaSearch)
 
-    suggestedTitles.forEach((name) => {
-      cy.get('.tt-dataset-0').contains(name).should('exist');
-    });
+    cy.waitForResponse(testData.searchRequestUrl, testData.arrivaSearch)
 
-    cy.clickLink('.tt-dataset-0', arrivalSearch)
+    cy.checkMenuOptionsAreVisible(testData.suggestedTitles)
 
-    cy.verifyText('h1', arrivalSearch)
-    cy.verifyText('.tagline', arrivalTagline)
+    cy.clickTitle(testData.arrivalSearch)
 
-    cy.intercept({
-      method: 'GET',
-      url: `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(theArrivalSearch)}&api_key=${encodeURIComponent(apiKey)}`,
-    }).as('searchFirstTitle')
+    cy.verifyMovieInfo(testData.arrivalSearch, testData.arrivalSlogan)
 
-    cy.typeInSearch(theArrivalSearch)
+    cy.typeInSearch(testData.theArrivalSearch)
 
-    cy.clickOption(4)
+    cy.waitForResponse(testData.searchRequestUrl, testData.theArrivalSearch)
 
-    cy.verifyStatusCode('@searchFirstTitle', 200)
+    cy.clickOptionFromSearchResult(testData.fifthOption)
 
-    cy.verifyText('h1', theArrivalSearch)
-    cy.verifyText('p', theArrivalTagline)
+    cy.verifyMovieInfo(testData.theArrivalSearch, testData.theArrivalParagraph)
 
-    cy.intercept({
-      method: 'GET',
-      url: `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(theAvengersSearch)}&api_key=${encodeURIComponent(apiKey)}`,
-    }).as('searchSecondTitle')
+    cy.waitForResponse(testData.searchRequestUrl, testData.theAvengersSearch)
 
-    cy.fixture('avengersStubbedResponse.json').then((stubbedRating) => {
-      cy.intercept('GET', `https://api.themoviedb.org/3/movie/24428?&api_key=${encodeURIComponent(apiKey)}`,
-        stubbedRating,
-      ).as('stubbedRating')
-    })
+    cy.stubAndVerifyMovieRating(testData.avengersMovieUrl, stubbedRating)
 
-    cy.typeInSearch(theAvengersSearch)
+    cy.typeInSearch(testData.theAvengersSearch)
 
-    cy.clickOption(0)
+    cy.clickOptionFromSearchResult(testData.firstOption)
 
-    cy.verifyStatusCode('@searchSecondTitle', 200)
-
-    cy.verifyStatusCode('@stubbedRating', 200)
-
-    cy.get('.meta-data:contains("101.1 / 10")').should('exist')
+    cy.verifyStubbedRatingIsVisible()
   })
 })

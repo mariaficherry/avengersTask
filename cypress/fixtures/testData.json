@@ -1,15 +1,20 @@
 {
-    "searchRequestUrl": "https://api.themoviedb.org/3/search/movie?query=",
+    "searchRequestUrl": "https://api.themoviedb.org/3/search/movie",
+    "avengersMovieUrl": "https://api.themoviedb.org/3/movie/24428**",
     "apiKey": "cfe422613b250f702980a3bbf9e90716",
     "suggestedTitles": [
         "Arrival",
         "The Arrival",
         "The Second Arrival"
     ],
-    "arrivaSearch" : "Arriva",
-    "arrivalSearch" : "Arrival",
+    "arrivaSearch": "Arriva",
+    "arrivalSearch": "Arrival",
     "theArrivalSearch": "The Arrival",
-    "arrivalTagline" : "Why are they here?",
-    "theArrivalTagline" : "Anna contemplates a big decision while waiting for someone in a cafe.",
-    "theAvengersSearch" : "The Avengers"
+    "arrivalSlogan": "Why are they here?",
+    "theArrivalParagraph": "Anna contemplates a big decision while waiting for someone in a cafe.",
+    "theAvengersSearch": "The Avengers",
+    "urlText": "reactjs-tmdb-app/",
+    "fifthOption": 4,
+    "firstOption": 0,
+    "statusCodeOK": 200
 }
